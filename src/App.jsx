@@ -10,8 +10,6 @@ function App() {
   const [sort, setSort] = useState('');
   const [filterValue, setFilterValue] = useState('');
 
-  console.log('app')
-
   const handleDelete = ({ email }) => {
     deleteUser(email);
   }
@@ -34,7 +32,6 @@ function App() {
   }
 
   const sortedUsers = useMemo(() => {
-    console.log('sort users');
     if (!sort || sort === '') {
       return users;
     }
@@ -49,7 +46,6 @@ function App() {
   }, [users, sort])
 
   const filtererdUsers = useMemo(() => {
-    console.log('filter users');
     return sortedUsers.filter((user) => user.location.country.toLowerCase().includes(filterValue.toLowerCase()));
   }, [filterValue, sortedUsers])
 
