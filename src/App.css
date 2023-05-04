@@ -1,3 +1,10 @@
+#root {
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -6,14 +13,19 @@
   width: 100%;
 }
 
+.actions {
+  display: flex;
+  margin-bottom: 20px;
+}
+
 .user-photo {
   border-radius: 50%;
 }
 
 .colorized tr:nth-child(odd) {
-  background: red;
+  background: #145369;
 }
 
 .colorized tr:nth-child(even) {
-  background: black;
+  background: #134b5f;
 }
