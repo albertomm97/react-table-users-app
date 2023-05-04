@@ -5,10 +5,12 @@ import { UsersTable }  from './components/UsersTable';
 import { useUsers } from './hooks/useUsers';
 
 function App() {
-  const { users, loading, error, reset, deleteUser } = useUsers();
+  const { users, loading, error, reset, deleteUser, updatePage } = useUsers();
   const [color, setColor] = useState(false);
   const [sort, setSort] = useState('');
   const [filterValue, setFilterValue] = useState('');
+
+  console.log('app')
 
   const handleDelete = ({ email }) => {
     deleteUser(email);
@@ -32,6 +34,7 @@ function App() {
   }
 
   const sortedUsers = useMemo(() => {
+    console.log('sort users');
     if (!sort || sort === '') {
       return users;
     }
@@ -46,6 +49,7 @@ function App() {
   }, [users, sort])
 
   const filtererdUsers = useMemo(() => {
+    console.log('filter users');
     return sortedUsers.filter((user) => user.location.country.toLowerCase().includes(filterValue.toLowerCase()));
   }, [filterValue, sortedUsers])
 
@@ -58,13 +62,13 @@ function App() {
           <button onClick={handleReset}>Reset</button>
           <input placeholder='Australia..' value={filterValue} onChange={handleInputChange} />
         </div>
-        <div>
-          {error && <p>Error</p>}
-          {!error && loading && <p>Loading...</p>}
-        </div>
       </header>
       <main className='table-container'>
-        <UsersTable users={filtererdUsers} handleSortParameter={handleSortParameter} handleDelete={handleDelete} color={color} />
+        {users.length > 0 && <UsersTable users={filtererdUsers} handleSortParameter={handleSortParameter} handleDelete={handleDelete} color={color} />}
+        {error && !loading && <p>Error</p>}
+        {!error && loading && <p>Loading...</p>}
+        {!error && !loading && users.length === 0 && <p>There is no users</p>}
+        {!error && !loading && <button onClick={() => updatePage()}>Load more results</button>}
       </main>
     </div>
   );

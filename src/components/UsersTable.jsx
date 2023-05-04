@@ -1,4 +1,3 @@
-
 export function UsersTable ({ users, handleSortParameter, handleDelete, color }) {
   return (
     <table>

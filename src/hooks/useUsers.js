@@ -4,39 +4,46 @@ export function useUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const previousUserList = useRef(users);
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://randomuser.me/api/?results=100`)
+    setError(null);
+    fetch(`https://randomuser.me/api/?results=10&seed=app&page=${currentPage}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error('Error fetching data');
       }
-      return response.json()
+      return response.json();
     })
     .then((data) => {
-      setUsers(data.results)
-      previousUserList.current = data.results;
-      setError(null);
+      setUsers((prevUsers) => {
+        const newUsers = [...prevUsers, ...data.results];
+        previousUserList.current = newUsers;
+        return newUsers;
+      })
     })
     .catch((error) => {
-      console.log(error.message);
       setError(error.message);
     })
     .finally(() => {
       setLoading(false);
     })
-  }, [])
+  }, [currentPage])
 
   const reset = useCallback(() => {
     setUsers(previousUserList.current);
-  }, [])
+  }, [previousUserList])
 
   const deleteUser = useCallback((email) => {
     const filteredUsers = users.filter((user) => user.email !== email);
     setUsers(filteredUsers);
   }, [users])
 
-  return { users, loading, error, reset, deleteUser };
+  const updatePage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  return { users, loading, error, reset, deleteUser, updatePage };
 }
