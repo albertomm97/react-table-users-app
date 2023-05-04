@@ -1,1 +1,19 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 
+.user-photo {
+  border-radius: 50%;
+}
+
+.colorized tr:nth-child(odd) {
+  background: red;
+}
+
+.colorized tr:nth-child(even) {
+  background: black;
+}
